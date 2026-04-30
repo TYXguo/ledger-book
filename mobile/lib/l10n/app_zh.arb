@@ -1,0 +1,428 @@
+{
+  "@@locale": "zh",
+  "appTitle": "家庭账本",
+  "@appTitle": {
+    "description": "应用标题"
+  },
+
+  "loginWelcome": "欢迎回来！",
+  "@loginWelcome": {
+    "description": "登录页面欢迎语"
+  },
+  "loginCreateAccount": "创建你的账号",
+  "@loginCreateAccount": {
+    "description": "注册页面欢迎语"
+  },
+  "loginNickname": "昵称",
+  "@loginNickname": {
+    "description": "昵称输入框标签"
+  },
+  "loginEmailOrPhone": "邮箱或手机号",
+  "@loginEmailOrPhone": {
+    "description": "邮箱/手机号输入框标签"
+  },
+  "loginPassword": "密码",
+  "@loginPassword": {
+    "description": "密码输入框标签"
+  },
+  "login": "登录",
+  "@login": {
+    "description": "登录按钮"
+  },
+  "register": "注册",
+  "@register": {
+    "description": "注册按钮"
+  },
+  "loginNoAccount": "没有账号？注册",
+  "@loginNoAccount": {
+    "description": "跳转注册的链接文字"
+  },
+  "loginHasAccount": "已有账号？登录",
+  "@loginHasAccount": {
+    "description": "跳转登录的链接文字"
+  },
+  "loginFillAll": "请填写所有字段",
+  "@loginFillAll": {
+    "description": "未填写完整时的提示"
+  },
+  "loginEnterNickname": "请输入昵称",
+  "@loginEnterNickname": {
+    "description": "昵称为空时的提示"
+  },
+
+  "homeRecentTransactions": "最近交易",
+  "@homeRecentTransactions": {
+    "description": "首页最近交易标题"
+  },
+  "homeViewAll": "查看全部",
+  "@homeViewAll": {
+    "description": "查看全部交易的按钮"
+  },
+  "homeNoTransactions": "暂无交易记录，点击 + 添加一笔！",
+  "@homeNoTransactions": {
+    "description": "无交易记录时的空状态提示"
+  },
+  "navHome": "首页",
+  "@navHome": {
+    "description": "底部导航-首页"
+  },
+  "navBills": "账单",
+  "@navBills": {
+    "description": "底部导航-账单"
+  },
+  "navStatistics": "统计",
+  "@navStatistics": {
+    "description": "底部导航-统计"
+  },
+  "navSettings": "设置",
+  "@navSettings": {
+    "description": "底部导航-设置"
+  },
+  "overview": "总览",
+  "@overview": {
+    "description": "总览卡片标题"
+  },
+  "details": "详情",
+  "@details": {
+    "description": "查看详情按钮"
+  },
+  "today": "今日",
+  "@today": {
+    "description": "今日统计标签"
+  },
+  "thisWeek": "本周",
+  "@thisWeek": {
+    "description": "本周统计标签"
+  },
+  "thisMonth": "本月",
+  "@thisMonth": {
+    "description": "本月统计标签"
+  },
+  "quickBudget": "预算",
+  "@quickBudget": {
+    "description": "快捷操作-预算"
+  },
+  "quickTransfer": "转账",
+  "@quickTransfer": {
+    "description": "快捷操作-转账"
+  },
+  "quickFamily": "家庭",
+  "@quickFamily": {
+    "description": "快捷操作-家庭"
+  },
+  "quickBills": "账单",
+  "@quickBills": {
+    "description": "快捷操作-账单"
+  },
+
+  "addTransaction": "添加交易",
+  "@addTransaction": {
+    "description": "添加交易页面标题"
+  },
+  "expense": "支出",
+  "@expense": {
+    "description": "支出类型标签"
+  },
+  "income": "收入",
+  "@income": {
+    "description": "收入类型标签"
+  },
+  "category": "分类",
+  "@category": {
+    "description": "分类标题"
+  },
+  "note": "备注",
+  "@note": {
+    "description": "备注输入框标签"
+  },
+  "noteHint": "添加备注...",
+  "@noteHint": {
+    "description": "备注输入框占位文字"
+  },
+  "saveTransaction": "保存交易",
+  "@saveTransaction": {
+    "description": "保存交易按钮"
+  },
+  "invalidAmount": "请输入有效的金额",
+  "@invalidAmount": {
+    "description": "金额无效时的提示"
+  },
+  "selectCategory": "请选择一个分类",
+  "@selectCategory": {
+    "description": "未选择分类时的提示"
+  },
+  "transactionSaved": "交易已保存！",
+  "@transactionSaved": {
+    "description": "交易保存成功的提示"
+  },
+
+  "transactionRecords": "交易记录",
+  "@transactionRecords": {
+    "description": "交易记录页面标题"
+  },
+  "searchByNote": "按备注搜索...",
+  "@searchByNote": {
+    "description": "搜索框占位文字"
+  },
+  "all": "全部",
+  "@all": {
+    "description": "筛选-全部"
+  },
+  "noTransactionsFound": "未找到交易记录",
+  "@noTransactionsFound": {
+    "description": "无搜索结果时的提示"
+  },
+  "previousPage": "上一页",
+  "@previousPage": {
+    "description": "分页-上一页"
+  },
+  "nextPage": "下一页",
+  "@nextPage": {
+    "description": "分页-下一页"
+  },
+
+  "statistics": "统计",
+  "@statistics": {
+    "description": "统计页面标题"
+  },
+  "expenseCategories": "支出分类",
+  "@expenseCategories": {
+    "description": "支出分类图表标题"
+  },
+  "noExpenseData": "暂无支出数据",
+  "@noExpenseData": {
+    "description": "无支出数据时的提示"
+  },
+  "monthlyTrend": "月度趋势",
+  "@monthlyTrend": {
+    "description": "月度趋势图表标题"
+  },
+  "noTrendData": "暂无趋势数据",
+  "@noTrendData": {
+    "description": "无趋势数据时的提示"
+  },
+  "monthSuffix": "{month}月",
+  "@monthSuffix": {
+    "description": "月份后缀，如 1月、2月",
+    "placeholders": {
+      "month": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+  "budgetTitle": "预算",
+  "@budgetTitle": {
+    "description": "预算页面标题"
+  },
+  "noBudgetThisMonth": "本月暂未设置预算",
+  "@noBudgetThisMonth": {
+    "description": "未设置预算时的提示"
+  },
+  "clickToSetBudget": "点击 + 设置预算",
+  "@clickToSetBudget": {
+    "description": "引导设置预算的提示"
+  },
+  "monthlyBudget": "月度预算",
+  "@monthlyBudget": {
+    "description": "月度预算卡片标题"
+  },
+  "overBudget": "超出预算",
+  "@overBudget": {
+    "description": "超出预算的标签"
+  },
+  "budgetSpent": "已支出：{amount}",
+  "@budgetSpent": {
+    "description": "已支出金额",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "¥1,000"
+      }
+    }
+  },
+  "budgetAmount": "预算：{amount}",
+  "@budgetAmount": {
+    "description": "预算总金额",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "¥5,000"
+      }
+    }
+  },
+  "budgetRemaining": "剩余：{amount}",
+  "@budgetRemaining": {
+    "description": "剩余预算",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "¥4,000"
+      }
+    }
+  },
+  "budgetUsedPercent": "已使用 {percent}%",
+  "@budgetUsedPercent": {
+    "description": "预算使用百分比",
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "20.5"
+      }
+    }
+  },
+  "setBudget": "设置预算",
+  "@setBudget": {
+    "description": "设置预算对话框标题"
+  },
+  "budgetAmountLabel": "预算金额",
+  "@budgetAmountLabel": {
+    "description": "预算金额输入框标签"
+  },
+  "cancel": "取消",
+  "@cancel": {
+    "description": "取消按钮"
+  },
+  "save": "保存",
+  "@save": {
+    "description": "保存按钮"
+  },
+
+  "transferTitle": "转账",
+  "@transferTitle": {
+    "description": "转账页面标题"
+  },
+  "noTransfers": "暂无转账记录",
+  "@noTransfers": {
+    "description": "无转账记录时的提示"
+  },
+  "clickToAddTransfer": "点击 + 记录一笔转账",
+  "@clickToAddTransfer": {
+    "description": "引导添加转账的提示"
+  },
+  "transferDeposit": "存入",
+  "@transferDeposit": {
+    "description": "转账类型-存入"
+  },
+  "transferWithdrawal": "取出",
+  "@transferWithdrawal": {
+    "description": "转账类型-取出"
+  },
+  "transferLoan": "借出",
+  "@transferLoan": {
+    "description": "转账类型-借出"
+  },
+  "transferRepayment": "还款",
+  "@transferRepayment": {
+    "description": "转账类型-还款"
+  },
+  "recordTransfer": "记录转账",
+  "@recordTransfer": {
+    "description": "记录转账对话框标题"
+  },
+  "amount": "金额",
+  "@amount": {
+    "description": "金额输入框标签"
+  },
+  "needTwoMembers": "至少需要2名成员",
+  "@needTwoMembers": {
+    "description": "成员不足时的提示"
+  },
+
+  "familyTitle": "家庭",
+  "@familyTitle": {
+    "description": "家庭页面标题"
+  },
+  "myFamily": "我的家庭",
+  "@myFamily": {
+    "description": "我的家庭标题"
+  },
+  "noFamily": "暂无家庭，创建或加入一个吧！",
+  "@noFamily": {
+    "description": "无家庭时的提示"
+  },
+  "roleLabel": "角色：{role}",
+  "@roleLabel": {
+    "description": "角色标签",
+    "placeholders": {
+      "role": {
+        "type": "String",
+        "example": "管理员"
+      }
+    }
+  },
+  "members": "成员",
+  "@members": {
+    "description": "成员列表标题"
+  },
+  "selectFamilyToViewMembers": "请选择一个家庭查看成员",
+  "@selectFamilyToViewMembers": {
+    "description": "未选择家庭时的提示"
+  },
+  "createFamily": "创建家庭",
+  "@createFamily": {
+    "description": "创建家庭按钮/标题"
+  },
+  "familyName": "家庭名称",
+  "@familyName": {
+    "description": "家庭名称输入框标签"
+  },
+  "joinFamily": "加入家庭",
+  "@joinFamily": {
+    "description": "加入家庭按钮/标题"
+  },
+  "inviteCode": "邀请码",
+  "@inviteCode": {
+    "description": "邀请码输入框标签"
+  },
+  "displayName": "你的显示名称",
+  "@displayName": {
+    "description": "显示名称输入框标签"
+  },
+  "create": "创建",
+  "@create": {
+    "description": "创建按钮"
+  },
+  "join": "加入",
+  "@join": {
+    "description": "加入按钮"
+  },
+
+  "settingsGeneral": "通用",
+  "@settingsGeneral": {
+    "description": "设置-通用分组标题"
+  },
+  "language": "语言",
+  "@language": {
+    "description": "语言设置标签"
+  },
+  "simplifiedChinese": "简体中文",
+  "@simplifiedChinese": {
+    "description": "简体中文语言名称"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language name"
+  },
+  "currency": "货币",
+  "@currency": {
+    "description": "货币设置标签"
+  },
+  "currencyCNY": "CNY ¥",
+  "@currencyCNY": {
+    "description": "人民币货币格式"
+  },
+  "about": "关于",
+  "@about": {
+    "description": "关于页面标签"
+  },
+  "aboutDescription": "一款面向家庭的移动端记账应用。",
+  "@aboutDescription": {
+    "description": "应用简介"
+  },
+  "logout": "退出登录",
+  "@logout": {
+    "description": "退出登录按钮"
+  }
+}

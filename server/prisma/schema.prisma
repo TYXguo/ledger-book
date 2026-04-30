@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AppUser {
+  id           String         @id @default(uuid())
+  email        String?        @unique
+  phone        String?        @unique
+  passwordHash String         @map("password_hash")
+  nickname     String
+  avatarUrl    String?        @map("avatar_url")
+  status       String         @default("active")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  members      FamilyMember[]
+
+  @@map("app_user")
+}
+
+model Family {
+  id           String         @id @default(uuid())
+  name         String
+  inviteCode   String         @unique @map("invite_code")
+  ownerUserId  String         @map("owner_user_id")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  members      FamilyMember[]
+  categories   Category[]
+  tags         Tag[]
+  transactions Transaction[]
+  budgets      Budget[]
+  transfers    Transfer[]
+
+  @@map("family")
+}
+
+model FamilyMember {
+  id          String   @id @default(uuid())
+  familyId    String   @map("family_id")
+  userId      String   @map("user_id")
+  displayName String   @map("display_name")
+  role        String   @default("member")
+  isDefault   Boolean  @default(false) @map("is_default")
+  status      String   @default("active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  family      Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  user        AppUser  @relation(fields: [userId], references: [id])
+  debtorTransfers Transfer[] @relation("DebtorTransfer")
+  creditorTransfers Transfer[] @relation("CreditorTransfer")
+
+  @@unique([familyId, userId])
+  @@map("family_member")
+}
+
+model Category {
+  id              String       @id @default(uuid())
+  familyId        String?      @map("family_id")
+  createdByUserId String?      @map("created_by_user_id")
+  parentId        String?      @map("parent_id")
+  name            String
+  type            String
+  icon            String?
+  color           String?
+  sortOrder       Int          @default(0) @map("sort_order")
+  isSystem        Boolean      @default(false) @map("is_system")
+  status          String       @default("active")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+  family          Family?      @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  parent          Category?    @relation("CategoryParent", fields: [parentId], references: [id], onDelete: Cascade)
+  children        Category[]   @relation("CategoryParent")
+  transactions    Transaction[] @relation("TransactionCategory")
+  subTransactions Transaction[] @relation("TransactionSubCategory")
+  budgets         Budget[]
+
+  @@map("category")
+}
+
+model Tag {
+  id              String           @id @default(uuid())
+  familyId        String?          @map("family_id")
+  createdByUserId String?          @map("created_by_user_id")
+  name            String
+  status          String           @default("active")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  family          Family?          @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  transactionTags TransactionTag[]
+
+  @@unique([familyId, name])
+  @@map("tag")
+}
+
+model Transaction {
+  id                       String           @id @default(uuid())
+  familyId                 String           @map("family_id")
+  createdByUserId          String           @map("created_by_user_id")
+  ownerMemberId            String           @map("owner_member_id")
+  type                     String
+  amount                   Decimal          @db.Decimal(14, 2)
+  currency                 String           @default("CNY")
+  categoryId               String           @map("category_id")
+  subCategoryId            String?          @map("sub_category_id")
+  occurredAt               DateTime         @map("occurred_at")
+  note                     String?
+  isExcludedFromStatistics Boolean          @default(false) @map("is_excluded_from_statistics")
+  status                   String           @default("active")
+  deletedAt                DateTime?        @map("deleted_at")
+  createdAt                DateTime         @default(now()) @map("created_at")
+  updatedAt                DateTime         @updatedAt @map("updated_at")
+  family                   Family           @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  category                 Category         @relation("TransactionCategory", fields: [categoryId], references: [id])
+  subCategory              Category?        @relation("TransactionSubCategory", fields: [subCategoryId], references: [id])
+  transactionTags          TransactionTag[]
+
+  @@index([familyId, occurredAt(sort: Desc)])
+  @@index([familyId, ownerMemberId])
+  @@index([familyId, categoryId])
+  @@map("transaction")
+}
+
+model TransactionTag {
+  transactionId String      @map("transaction_id")
+  tagId         String      @map("tag_id")
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  tag           Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([transactionId, tagId])
+  @@map("transaction_tag")
+}
+
+model Budget {
+  id                    String    @id @default(uuid())
+  familyId              String    @map("family_id")
+  ownerMemberId         String?   @map("owner_member_id")
+  categoryId            String?   @map("category_id")
+  budgetMonth           DateTime  @map("budget_month")
+  amount                Decimal   @db.Decimal(14, 2)
+  alertThresholdPercent Int       @default(100) @map("alert_threshold_percent")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+  family                Family    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  category              Category? @relation(fields: [categoryId], references: [id])
+
+  @@unique([familyId, ownerMemberId, categoryId, budgetMonth])
+  @@map("budget")
+}
+
+model Transfer {
+  id                   String       @id @default(uuid())
+  familyId             String       @map("family_id")
+  debtorMemberId       String       @map("debtor_member_id")
+  creditorMemberId     String       @map("creditor_member_id")
+  relatedTransferId    String?      @map("related_transfer_id")
+  direction            String
+  referenceNo          String       @unique @map("reference_no")
+  amount               Decimal      @db.Decimal(14, 2)
+  currency             String       @default("CNY")
+  note                 String?
+  relatedTransactionId String?      @map("related_transaction_id")
+  occurredAt           DateTime     @map("occurred_at")
+  status               String       @default("completed")
+  createdAt            DateTime     @default(now()) @map("created_at")
+  updatedAt            DateTime     @updatedAt @map("updated_at")
+  family               Family       @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  debtor               FamilyMember @relation("DebtorTransfer", fields: [debtorMemberId], references: [id])
+  creditor             FamilyMember @relation("CreditorTransfer", fields: [creditorMemberId], references: [id])
+
+  @@index([familyId, debtorMemberId])
+  @@index([familyId, creditorMemberId])
+  @@index([familyId, occurredAt(sort: Desc)])
+  @@map("transfer")
+}

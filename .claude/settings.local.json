@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(flutter --version)",
+      "Bash(docker --version)",
+      "Bash(docker info *)",
+      "Bash(open -a Docker)",
+      "Bash(npm install *)",
+      "Bash(docker compose *)",
+      "Bash(npx prisma *)",
+      "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"确认，执行重置\" npx prisma *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000/health)",
+      "Bash(flutter pub *)",
+      "Bash(brew --version)",
+      "Bash(brew install *)",
+      "Bash(flutter devices *)",
+      "Bash(flutter run *)",
+      "Bash(kill 77273)",
+      "Bash(npx tsc *)",
+      "Bash(lsof -iTCP -sTCP:LISTEN -n -P)",
+      "Bash(kill 80516 80610)",
+      "Bash(lsof -iTCP:3000 -sTCP:LISTEN -n -P)",
+      "Bash(flutter create *)",
+      "Bash(flutter gen-l10n *)",
+      "Bash(flutter analyze *)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}

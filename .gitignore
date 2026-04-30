@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+vendor/
+vendor.lock
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Build
+build/
+dist/
+*.class
+*.log
+*.pyc
+
+# Flutter
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/coverage/
+app.*.symbols
+app.*.map.json
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Docker
+docker-compose.override.yml
+
+# Generated files
+*.g.dart
+*.freezed.dart
