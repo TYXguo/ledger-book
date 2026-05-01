@@ -16,6 +16,7 @@ class LedgerApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Ledger Book',
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       routerConfig: router,
       locale: locale,

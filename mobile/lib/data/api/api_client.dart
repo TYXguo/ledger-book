@@ -22,7 +22,7 @@ class ApiClient {
     return Uri.parse('${ApiConfig.baseUrl}$path').replace(queryParameters: query);
   }
 
-  Future<Map<String, dynamic>> get(String path, {Map<String, String>? query}) async {
+  Future<dynamic> get(String path, {Map<String, String>? query}) async {
     final response = await _httpClient
         .get(_uri(path, query), headers: _headers)
         .timeout(ApiConfig.timeout);
@@ -50,11 +50,11 @@ class ApiClient {
     return _handleResponse(response);
   }
 
-  Map<String, dynamic> _handleResponse(http.Response response) {
+  dynamic _handleResponse(http.Response response) {
     final body = jsonDecode(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return body as Map<String, dynamic>;
+      return body;
     }
 
     throw AppException.fromResponse(

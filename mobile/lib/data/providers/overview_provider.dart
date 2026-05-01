@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../api/api_client.dart';
 import '../models/overview_model.dart';
 import '../models/statistic_model.dart';
 import 'family_provider.dart';
@@ -22,7 +21,7 @@ final categoryBreakdownProvider = FutureProvider.family<List<CategoryBreakdown>,
   if (familyId == null) return [];
   final api = ref.read(apiClientProvider);
   final res = await api.get('/families/$familyId/statistics/category-breakdown', query: {'month': month});
-  final list = res['data'] ?? res['items'] ?? res;
+  final list = res is List ? res : (res['data'] ?? res['items'] ?? []);
   if (list is List) {
     return list.map((e) => CategoryBreakdown.fromJson(e as Map<String, dynamic>)).toList();
   }
@@ -34,7 +33,7 @@ final monthlyTrendProvider = FutureProvider<List<MonthlyTrend>>((ref) async {
   if (familyId == null) return [];
   final api = ref.read(apiClientProvider);
   final res = await api.get('/families/$familyId/statistics/monthly-trend');
-  final list = res['data'] ?? res['items'] ?? res;
+  final list = res is List ? res : (res['data'] ?? res['items'] ?? []);
   if (list is List) {
     return list.map((e) => MonthlyTrend.fromJson(e as Map<String, dynamic>)).toList();
   }

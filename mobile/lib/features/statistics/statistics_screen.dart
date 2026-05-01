@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../data/providers/overview_provider.dart';
 import '../../l10n/app_localizations.dart';
@@ -22,7 +23,10 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.statistics)),
+      appBar: AppBar(
+        leading: context.canPop() ? IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()) : null,
+        title: Text(l10n.statistics),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

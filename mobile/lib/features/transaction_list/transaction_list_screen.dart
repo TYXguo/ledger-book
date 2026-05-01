@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../data/providers/transaction_provider.dart';
 import '../../l10n/app_localizations.dart';
@@ -23,6 +24,7 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: context.canPop() ? IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()) : null,
         title: Text(l10n.transactionRecords),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56),

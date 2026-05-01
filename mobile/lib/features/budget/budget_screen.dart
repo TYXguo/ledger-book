@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../data/providers/budget_provider.dart';
 import '../../data/providers/family_provider.dart';
@@ -31,6 +32,7 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: context.canPop() ? IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()) : null,
         title: Text(l10n.budgetTitle),
         actions: [
           IconButton(icon: const Icon(Icons.add), onPressed: () => _showAddBudgetDialog(context)),
