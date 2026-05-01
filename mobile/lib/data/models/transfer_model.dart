@@ -21,13 +21,19 @@ class TransferModel {
     required this.referenceNo,
   });
 
+  static double _parseDouble(dynamic value, {double fallback = 0}) {
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? fallback;
+    return fallback;
+  }
+
   factory TransferModel.fromJson(Map<String, dynamic> json) {
     return TransferModel(
       id: json['id'] as String,
       debtorMemberId: json['debtorMemberId'] as String,
       creditorMemberId: json['creditorMemberId'] as String,
       direction: json['direction'] as String,
-      amount: (json['amount'] as num).toDouble(),
+      amount: _parseDouble(json['amount']),
       note: json['note'] as String?,
       occurredAt: DateTime.parse(json['occurredAt'] as String),
       status: json['status'] as String,
@@ -45,7 +51,7 @@ class BalanceModel {
   factory BalanceModel.fromJson(Map<String, dynamic> json) {
     return BalanceModel(
       peerMemberId: json['peerMemberId'] as String,
-      balance: (json['balance'] as num).toDouble(),
+      balance: TransferModel._parseDouble(json['balance']),
     );
   }
 }

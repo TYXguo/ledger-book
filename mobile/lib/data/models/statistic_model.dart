@@ -13,13 +13,26 @@ class CategoryBreakdown {
     required this.count,
   });
 
+  static double _parseDouble(dynamic value, {double fallback = 0}) {
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? fallback;
+    return fallback;
+  }
+
+  static int _parseInt(dynamic value, {int fallback = 0}) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? fallback;
+    return fallback;
+  }
+
   factory CategoryBreakdown.fromJson(Map<String, dynamic> json) {
     return CategoryBreakdown(
       categoryId: json['categoryId'] as String,
       categoryName: json['categoryName'] as String,
       type: json['type'] as String,
-      totalAmount: (json['totalAmount'] as num).toDouble(),
-      count: json['count'] as int,
+      totalAmount: _parseDouble(json['totalAmount']),
+      count: _parseInt(json['count']),
     );
   }
 }
@@ -34,8 +47,8 @@ class MonthlyTrend {
   factory MonthlyTrend.fromJson(Map<String, dynamic> json) {
     return MonthlyTrend(
       month: json['month'] as String,
-      income: (json['income'] as num).toDouble(),
-      expense: (json['expense'] as num).toDouble(),
+      income: CategoryBreakdown._parseDouble(json['income']),
+      expense: CategoryBreakdown._parseDouble(json['expense']),
     );
   }
 }

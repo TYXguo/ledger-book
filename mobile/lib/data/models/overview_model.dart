@@ -5,10 +5,16 @@ class PeriodSummary {
   const PeriodSummary({required this.income, required this.expense});
   double get net => income - expense;
 
+  static double _parseDouble(dynamic value, {double fallback = 0}) {
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? fallback;
+    return fallback;
+  }
+
   factory PeriodSummary.fromJson(Map<String, dynamic> json) {
     return PeriodSummary(
-      income: (json['income'] as num).toDouble(),
-      expense: (json['expense'] as num).toDouble(),
+      income: _parseDouble(json['income']),
+      expense: _parseDouble(json['expense']),
     );
   }
 }

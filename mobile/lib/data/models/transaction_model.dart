@@ -9,6 +9,19 @@ class TagModel {
   }
 }
 
+double _parseDouble(dynamic value, {double fallback = 0}) {
+  if (value is num) return value.toDouble();
+  if (value is String) return double.tryParse(value) ?? fallback;
+  return fallback;
+}
+
+int _parseInt(dynamic value, {int fallback = 0}) {
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  if (value is String) return int.tryParse(value) ?? fallback;
+  return fallback;
+}
+
 class TransactionModel {
   final String id;
   final String type;
@@ -42,7 +55,7 @@ class TransactionModel {
     return TransactionModel(
       id: json['id'] as String,
       type: json['type'] as String,
-      amount: (json['amount'] as num).toDouble(),
+      amount: _parseDouble(json['amount']),
       currency: json['currency'] as String? ?? 'CNY',
       categoryId: json['categoryId'] as String,
       categoryName: json['category']?['name'] as String?,
@@ -69,9 +82,9 @@ class TransactionListResult {
   factory TransactionListResult.fromJson(Map<String, dynamic> json) {
     return TransactionListResult(
       items: (json['items'] as List<dynamic>).map((e) => TransactionModel.fromJson(e as Map<String, dynamic>)).toList(),
-      total: json['total'] as int,
-      page: json['page'] as int,
-      pageSize: json['pageSize'] as int,
+      total: _parseInt(json['total']),
+      page: _parseInt(json['page'], fallback: 1),
+      pageSize: _parseInt(json['pageSize'], fallback: 20),
     );
   }
 }

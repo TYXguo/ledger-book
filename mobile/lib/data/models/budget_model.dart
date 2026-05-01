@@ -13,13 +13,19 @@ class BudgetSummaryModel {
     required this.usagePercent,
   });
 
+  static double _parseDouble(dynamic value, {double fallback = 0}) {
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? fallback;
+    return fallback;
+  }
+
   factory BudgetSummaryModel.fromJson(Map<String, dynamic> json) {
     return BudgetSummaryModel(
       budgetMonth: json['budgetMonth'] as String,
-      totalBudget: (json['totalBudget'] as num).toDouble(),
-      totalExpense: (json['totalExpense'] as num).toDouble(),
-      remaining: (json['remaining'] as num).toDouble(),
-      usagePercent: (json['usagePercent'] as num).toDouble(),
+      totalBudget: _parseDouble(json['totalBudget']),
+      totalExpense: _parseDouble(json['totalExpense']),
+      remaining: _parseDouble(json['remaining']),
+      usagePercent: _parseDouble(json['usagePercent']),
     );
   }
 }

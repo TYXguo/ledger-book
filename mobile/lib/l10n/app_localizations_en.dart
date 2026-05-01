@@ -304,4 +304,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Logout';
+
+  @override
+  String get categoryManagement => 'Category Management';
+
+  @override
+  String get addCategory => 'Add Category';
+
+  @override
+  String get categoryName => 'Category Name';
+
+  @override
+  String get parentCategory => 'Parent Category';
+
+  @override
+  String get noParent => 'None (Top Level)';
+
+  @override
+  String get deleteCategoryConfirm => 'Delete this category?';
+
+  @override
+  String get categoryDeleted => 'Category deleted';
+
+  @override
+  String get categoryCreated => 'Category created';
+
+  @override
+  String get manageCategories => 'Manage';
+
+  @override
+  String get singleFamilyHint => 'Each account can only belong to one family';
+
+  @override
+  String get noFamilyHint => 'Create or join a family to start tracking';
 }

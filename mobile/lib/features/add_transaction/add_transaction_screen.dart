@@ -68,7 +68,21 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            Text(l10n.category, style: const TextStyle(fontWeight: FontWeight.w600)),
+            Row(
+              children: [
+                Text(l10n.category, style: const TextStyle(fontWeight: FontWeight.w600)),
+                const Spacer(),
+                TextButton.icon(
+                  onPressed: () => _showAddCategoryDialog(context),
+                  icon: const Icon(Icons.add, size: 18),
+                  label: Text(l10n.addCategory, style: const TextStyle(fontSize: 13)),
+                ),
+                TextButton(
+                  onPressed: () => context.push('/categories'),
+                  child: Text(l10n.manageCategories, style: const TextStyle(fontSize: 13)),
+                ),
+              ],
+            ),
             const SizedBox(height: 8),
             categories.when(
               data: (cats) => Wrap(
@@ -142,6 +156,50 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     );
   }
 
+  void _showAddCategoryDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.addCategory),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: InputDecoration(
+            labelText: l10n.categoryName,
+            border: const OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.cancel)),
+          FilledButton(
+            onPressed: () async {
+              final name = controller.text.trim();
+              if (name.isEmpty) return;
+              Navigator.pop(ctx);
+              try {
+                final cat = await createCategory(ref, name: name, type: _type);
+                if (mounted) {
+                  setState(() {
+                    _selectedCategoryId = cat.id;
+                    _selectedSubCategoryId = null;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.categoryCreated)));
+                }
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                }
+              }
+            },
+            child: Text(l10n.save),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     final amount = double.tryParse(_amountController.text);
     if (amount == null || amount <= 0) {
@@ -179,7 +237,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.transactionSaved)));
-        Navigator.of(context).pop();
+        context.pop();
       }
     } catch (e) {
       if (mounted) {

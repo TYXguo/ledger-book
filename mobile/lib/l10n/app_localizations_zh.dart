@@ -304,4 +304,37 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get logout => '退出登录';
+
+  @override
+  String get categoryManagement => '分类管理';
+
+  @override
+  String get addCategory => '添加分类';
+
+  @override
+  String get categoryName => '分类名称';
+
+  @override
+  String get parentCategory => '父分类';
+
+  @override
+  String get noParent => '无（顶级分类）';
+
+  @override
+  String get deleteCategoryConfirm => '确定删除该分类？';
+
+  @override
+  String get categoryDeleted => '分类已删除';
+
+  @override
+  String get categoryCreated => '分类已创建';
+
+  @override
+  String get manageCategories => '管理';
+
+  @override
+  String get singleFamilyHint => '每个账号只能加入一个家庭';
+
+  @override
+  String get noFamilyHint => '创建或加入一个家庭开始记账';
 }

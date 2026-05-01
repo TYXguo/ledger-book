@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../data/providers/overview_provider.dart';
 import '../../data/providers/transaction_provider.dart';
+import '../../data/providers/family_provider.dart';
 import '../../data/models/overview_model.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -14,15 +15,38 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final overview = ref.watch(overviewProvider);
     final txnList = ref.watch(transactionListProvider);
+    final currentFamilyId = ref.watch(currentFamilyIdProvider);
     final currency = NumberFormat.currency(locale: 'zh_CN', symbol: '¥');
     final l10n = AppLocalizations.of(context)!;
+
+    if (currentFamilyId == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text(l10n.appTitle)),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.family_restroom, size: 64, color: Theme.of(context).colorScheme.outline),
+                const SizedBox(height: 16),
+                Text(l10n.noFamilyHint, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16, color: Colors.grey)),
+                const SizedBox(height: 24),
+                FilledButton.icon(
+                  onPressed: () => context.go('/family'),
+                  icon: const Icon(Icons.add_home),
+                  label: Text(l10n.createFamily),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.appTitle),
-        actions: [
-          IconButton(onPressed: () => context.go('/family'), icon: const Icon(Icons.group)),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -107,7 +131,7 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/add'),
+        onPressed: () => context.push('/add'),
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: NavigationBar(

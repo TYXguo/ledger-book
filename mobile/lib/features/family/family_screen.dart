@@ -19,16 +19,6 @@ class FamilyScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: context.canPop() ? IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()) : null,
         title: Text(l10n.familyTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person_add),
-            onPressed: () => _showJoinFamilyDialog(context, ref),
-          ),
-          IconButton(
-            icon: const Icon(Icons.add_home),
-            onPressed: () => _showCreateFamilyDialog(context, ref),
-          ),
-        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -41,25 +31,59 @@ class FamilyScreen extends ConsumerWidget {
                 return Card(
                   child: Padding(
                     padding: const EdgeInsets.all(24),
-                    child: Center(child: Text(l10n.noFamily, style: const TextStyle(color: Colors.grey))),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Text(l10n.noFamily, style: const TextStyle(color: Colors.grey)),
+                          const SizedBox(height: 16),
+                          FilledButton.icon(
+                            onPressed: () => _showCreateFamilyDialog(context, ref),
+                            icon: const Icon(Icons.add_home),
+                            label: Text(l10n.createFamily),
+                          ),
+                          const SizedBox(height: 8),
+                          OutlinedButton.icon(
+                            onPressed: () => _showJoinFamilyDialog(context, ref),
+                            icon: const Icon(Icons.person_add),
+                            label: Text(l10n.joinFamily),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               }
               final currentId = ref.watch(currentFamilyIdProvider);
               return Column(
-                children: list.map((f) => Card(
-                  color: currentId == f.familyId ? Theme.of(context).colorScheme.primaryContainer : null,
-                  child: ListTile(
-                    leading: Icon(
-                      f.isDefault ? Icons.home : Icons.family_restroom,
-                      color: currentId == f.familyId ? Theme.of(context).colorScheme.primary : null,
+                children: [
+                  Card(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    child: ListTile(
+                      leading: Icon(Icons.home, color: Theme.of(context).colorScheme.primary),
+                      title: Text(list.first.name),
+                      subtitle: Text(l10n.roleLabel(list.first.role)),
+                      trailing: const Icon(Icons.check_circle),
                     ),
-                    title: Text(f.name),
-                    subtitle: Text(l10n.roleLabel(f.role)),
-                    trailing: currentId == f.familyId ? const Icon(Icons.check_circle) : null,
-                    onTap: () => ref.read(currentFamilyIdProvider.notifier).state = f.familyId,
                   ),
-                )).toList(),
+                  const SizedBox(height: 8),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Icon(Icons.info_outline, color: Theme.of(context).colorScheme.outline),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              l10n.singleFamilyHint,
+                              style: TextStyle(color: Theme.of(context).colorScheme.outline, fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
@@ -105,9 +129,12 @@ class FamilyScreen extends ConsumerWidget {
               if (nameCtrl.text.isEmpty) return;
               try {
                 final api = ref.read(apiClientProvider);
-                await api.post('/families', body: {'name': nameCtrl.text});
+                final res = await api.post('/families', body: {'name': nameCtrl.text});
+                final familyId = (res as Map<String, dynamic>)['id'] as String;
+                ref.read(currentFamilyIdProvider.notifier).state = familyId;
                 ref.invalidate(familiesProvider);
                 if (ctx.mounted) Navigator.pop(ctx);
+                if (context.mounted) context.go('/');
               } catch (e) {
                 if (ctx.mounted) {
                   ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('Error: $e')));
@@ -144,12 +171,15 @@ class FamilyScreen extends ConsumerWidget {
               if (codeCtrl.text.isEmpty || nameCtrl.text.isEmpty) return;
               try {
                 final api = ref.read(apiClientProvider);
-                await api.post('/families/join', body: {
+                final res = await api.post('/families/join', body: {
                   'inviteCode': codeCtrl.text,
                   'displayName': nameCtrl.text,
                 });
+                final familyId = (res as Map<String, dynamic>)['familyId'] as String;
+                ref.read(currentFamilyIdProvider.notifier).state = familyId;
                 ref.invalidate(familiesProvider);
                 if (ctx.mounted) Navigator.pop(ctx);
+                if (context.mounted) context.go('/');
               } catch (e) {
                 if (ctx.mounted) {
                   ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text('Error: $e')));

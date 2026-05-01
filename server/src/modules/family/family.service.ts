@@ -5,6 +5,11 @@ import type { CreateFamilyDto, JoinFamilyDto } from './family.schema';
 
 export const familyService = {
   async create(userId: string, dto: CreateFamilyDto) {
+    const existingMember = await prisma.familyMember.findFirst({
+      where: { userId, status: 'active' },
+    });
+    if (existingMember) throw new AppError('Already belongs to a family', 409, 'ALREADY_HAS_FAMILY');
+
     const inviteCode = crypto.randomBytes(8).toString('hex').toUpperCase();
 
     return prisma.$transaction(async (tx) => {
@@ -27,6 +32,11 @@ export const familyService = {
   },
 
   async join(userId: string, dto: JoinFamilyDto) {
+    const existingMember = await prisma.familyMember.findFirst({
+      where: { userId, status: 'active' },
+    });
+    if (existingMember) throw new AppError('Already belongs to a family', 409, 'ALREADY_HAS_FAMILY');
+
     const family = await prisma.family.findUnique({ where: { inviteCode: dto.inviteCode } });
     if (!family) throw new AppError('Invalid invite code', 404, 'FAMILY_NOT_FOUND');
 

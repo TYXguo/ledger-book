@@ -667,6 +667,72 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'退出登录'**
   String get logout;
+
+  /// 分类管理页面标题
+  ///
+  /// In zh, this message translates to:
+  /// **'分类管理'**
+  String get categoryManagement;
+
+  /// 添加分类按钮/标题
+  ///
+  /// In zh, this message translates to:
+  /// **'添加分类'**
+  String get addCategory;
+
+  /// 分类名称输入框标签
+  ///
+  /// In zh, this message translates to:
+  /// **'分类名称'**
+  String get categoryName;
+
+  /// 父分类标签
+  ///
+  /// In zh, this message translates to:
+  /// **'父分类'**
+  String get parentCategory;
+
+  /// 无父分类（顶级分类）
+  ///
+  /// In zh, this message translates to:
+  /// **'无（顶级分类）'**
+  String get noParent;
+
+  /// 删除分类确认提示
+  ///
+  /// In zh, this message translates to:
+  /// **'确定删除该分类？'**
+  String get deleteCategoryConfirm;
+
+  /// 分类已删除提示
+  ///
+  /// In zh, this message translates to:
+  /// **'分类已删除'**
+  String get categoryDeleted;
+
+  /// 分类已创建提示
+  ///
+  /// In zh, this message translates to:
+  /// **'分类已创建'**
+  String get categoryCreated;
+
+  /// 管理分类按钮
+  ///
+  /// In zh, this message translates to:
+  /// **'管理'**
+  String get manageCategories;
+
+  /// 单家庭限制提示
+  ///
+  /// In zh, this message translates to:
+  /// **'每个账号只能加入一个家庭'**
+  String get singleFamilyHint;
+
+  /// 无家庭时的引导提示
+  ///
+  /// In zh, this message translates to:
+  /// **'创建或加入一个家庭开始记账'**
+  String get noFamilyHint;
 }
 
 class _AppLocalizationsDelegate

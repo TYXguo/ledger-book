@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_client.dart';
 import '../models/user_model.dart';
 import 'api_client_provider.dart';
+import 'family_provider.dart';
 
 const _kTokenKey = 'auth_token';
 const _kUserKey = 'auth_user';
@@ -11,17 +12,30 @@ const _kExpireKey = 'auth_expire';
 const _kExpireDuration = Duration(days: 7);
 
 final authStateProvider = StateNotifierProvider<AuthState, UserModel?>((ref) {
-  return AuthState(ref.read(apiClientProvider));
+  return AuthState(ref.read(apiClientProvider), ref);
 });
 
 class AuthState extends StateNotifier<UserModel?> {
   final ApiClient _api;
+  final Ref? _ref;
 
-  AuthState(this._api) : super(null) {
+  AuthState(this._api, [this._ref]) : super(null) {
     _loadFromCache();
   }
 
   bool get isLoggedIn => state != null;
+
+  Future<void> _autoSelectFamily() async {
+    if (_ref == null) return;
+    try {
+      final res = await _api.get('/families');
+      final list = res is List ? res : (res['data'] ?? []);
+      if (list is List && list.isNotEmpty) {
+        final first = list.first as Map<String, dynamic>;
+        _ref!.read(currentFamilyIdProvider.notifier).state = first['familyId'] as String;
+      }
+    } catch (_) {}
+  }
 
   Future<void> _loadFromCache() async {
     final prefs = await SharedPreferences.getInstance();
@@ -39,6 +53,7 @@ class AuthState extends StateNotifier<UserModel?> {
 
     _api.setToken(token);
     state = UserModel.fromJson(jsonDecode(userJson));
+    _autoSelectFamily();
   }
 
   Future<void> _saveToCache(String token, UserModel user) async {
@@ -73,6 +88,7 @@ class AuthState extends StateNotifier<UserModel?> {
     _api.setToken(result.token);
     state = result.user;
     await _saveToCache(result.token, result.user);
+    _autoSelectFamily();
   }
 
   Future<void> register(String nickname, String password, {String? email, String? phone}) async {

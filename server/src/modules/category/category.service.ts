@@ -4,7 +4,7 @@ import type { CreateCategoryDto } from './category.schema';
 export const categoryService = {
   async list(familyId: string) {
     return prisma.category.findMany({
-      where: { OR: [{ familyId }, { familyId: null }], status: 'active' },
+      where: { familyId, status: 'active' },
       orderBy: [{ parentId: 'asc' }, { sortOrder: 'asc' }],
     });
   },

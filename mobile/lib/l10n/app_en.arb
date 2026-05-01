@@ -102,5 +102,18 @@
   "currencyCNY": "CNY ¥",
   "about": "About",
   "aboutDescription": "A family-oriented mobile bookkeeping app.",
-  "logout": "Logout"
+  "logout": "Logout",
+
+  "categoryManagement": "Category Management",
+  "addCategory": "Add Category",
+  "categoryName": "Category Name",
+  "parentCategory": "Parent Category",
+  "noParent": "None (Top Level)",
+  "deleteCategoryConfirm": "Delete this category?",
+  "categoryDeleted": "Category deleted",
+  "categoryCreated": "Category created",
+  "manageCategories": "Manage",
+
+  "singleFamilyHint": "Each account can only belong to one family",
+  "noFamilyHint": "Create or join a family to start tracking"
 }

@@ -9,6 +9,7 @@ import '../../features/budget/budget_screen.dart';
 import '../../features/family/family_screen.dart';
 import '../../features/transfer/transfer_screen.dart';
 import '../../features/settings/settings_screen.dart';
+import '../../features/category_management/category_management_screen.dart';
 import '../../data/providers/auth_provider.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -34,6 +35,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/family', builder: (context, state) => const FamilyScreen()),
       GoRoute(path: '/transfer', builder: (context, state) => const TransferScreen()),
       GoRoute(path: '/settings', builder: (context, state) => const SettingsScreen()),
+      GoRoute(path: '/categories', builder: (context, state) => const CategoryManagementScreen()),
     ],
   );
 });

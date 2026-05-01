@@ -424,5 +424,51 @@
   "logout": "退出登录",
   "@logout": {
     "description": "退出登录按钮"
+  },
+
+  "categoryManagement": "分类管理",
+  "@categoryManagement": {
+    "description": "分类管理页面标题"
+  },
+  "addCategory": "添加分类",
+  "@addCategory": {
+    "description": "添加分类按钮/标题"
+  },
+  "categoryName": "分类名称",
+  "@categoryName": {
+    "description": "分类名称输入框标签"
+  },
+  "parentCategory": "父分类",
+  "@parentCategory": {
+    "description": "父分类标签"
+  },
+  "noParent": "无（顶级分类）",
+  "@noParent": {
+    "description": "无父分类（顶级分类）"
+  },
+  "deleteCategoryConfirm": "确定删除该分类？",
+  "@deleteCategoryConfirm": {
+    "description": "删除分类确认提示"
+  },
+  "categoryDeleted": "分类已删除",
+  "@categoryDeleted": {
+    "description": "分类已删除提示"
+  },
+  "categoryCreated": "分类已创建",
+  "@categoryCreated": {
+    "description": "分类已创建提示"
+  },
+  "manageCategories": "管理",
+  "@manageCategories": {
+    "description": "管理分类按钮"
+  },
+
+  "singleFamilyHint": "每个账号只能加入一个家庭",
+  "@singleFamilyHint": {
+    "description": "单家庭限制提示"
+  },
+  "noFamilyHint": "创建或加入一个家庭开始记账",
+  "@noFamilyHint": {
+    "description": "无家庭时的引导提示"
   }
 }
