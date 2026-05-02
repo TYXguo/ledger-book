@@ -337,4 +337,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get noFamilyHint => '创建或加入一个家庭开始记账';
+
+  @override
+  String get leaveFamily => '退出家庭';
+
+  @override
+  String get leaveFamilyConfirmTitle => '确认退出家庭？';
+
+  @override
+  String get leaveFamilyConfirmBody => '退出后将无法查看该家庭的账单与成员；若需再次使用，请通过邀请码重新加入。';
+
+  @override
+  String get leaveFamilyConfirmAction => '退出';
 }

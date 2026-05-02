@@ -337,4 +337,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noFamilyHint => 'Create or join a family to start tracking';
+
+  @override
+  String get leaveFamily => 'Leave family';
+
+  @override
+  String get leaveFamilyConfirmTitle => 'Leave this family?';
+
+  @override
+  String get leaveFamilyConfirmBody =>
+      'You will lose access to this family\'s ledger and members. Rejoin with an invite code to use it again.';
+
+  @override
+  String get leaveFamilyConfirmAction => 'Leave';
 }

@@ -44,10 +44,28 @@ export const familyService = {
       where: { familyId_userId: { familyId: family.id, userId } },
     });
 
-    if (existing) throw new AppError('Already a member', 409, 'ALREADY_MEMBER');
+    if (existing) {
+      if (existing.status === 'active') throw new AppError('Already a member', 409, 'ALREADY_MEMBER');
+      return prisma.familyMember.update({
+        where: { id: existing.id },
+        data: { status: 'active', displayName: dto.displayName },
+      });
+    }
 
     return prisma.familyMember.create({
       data: { familyId: family.id, userId, displayName: dto.displayName, role: 'member' },
+    });
+  },
+
+  async leave(userId: string, familyId: string) {
+    const member = await prisma.familyMember.findFirst({
+      where: { userId, familyId, status: 'active' },
+    });
+    if (!member) throw new AppError('Not a member of this family', 404, 'NOT_MEMBER');
+
+    await prisma.familyMember.update({
+      where: { id: member.id },
+      data: { status: 'left' },
     });
   },
 

@@ -5,6 +5,7 @@ import '../../data/providers/auth_provider.dart';
 import '../../data/providers/family_provider.dart';
 import '../../data/providers/locale_provider.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/leave_family_dialog.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -53,25 +54,41 @@ class SettingsScreen extends ConsumerWidget {
           ),
           families.when(
             data: (list) => Column(
-              children: list.map((f) => ListTile(
-                leading: const Icon(Icons.family_restroom),
-                title: Text(f.name),
-                subtitle: Text(l10n.roleLabel(f.role)),
-                trailing: const Icon(Icons.chevron_right),
-              )).toList(),
+              children: [
+                ...list.map((f) => ListTile(
+                  leading: const Icon(Icons.family_restroom),
+                  title: Text(f.name),
+                  subtitle: Text(l10n.roleLabel(f.role)),
+                  trailing: const Icon(Icons.chevron_right),
+                )),
+                if (list.isEmpty) ...[
+                  ListTile(
+                    leading: const Icon(Icons.add_home),
+                    title: Text(l10n.createFamily),
+                    onTap: () => context.go('/family'),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.group_add),
+                    title: Text(l10n.joinFamily),
+                    onTap: () => context.go('/family'),
+                  ),
+                ] else
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () => showLeaveFamilyConfirmAndExecute(context, ref, list.first.familyId),
+                        icon: const Icon(Icons.logout, color: Colors.red),
+                        label: Text(l10n.leaveFamily, style: const TextStyle(color: Colors.red)),
+                        style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.red)),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             loading: () => const SizedBox(),
             error: (_, __) => const SizedBox(),
-          ),
-          ListTile(
-            leading: const Icon(Icons.add_home),
-            title: Text(l10n.createFamily),
-            onTap: () => context.go('/family'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.group_add),
-            title: Text(l10n.joinFamily),
-            onTap: () => context.go('/family'),
           ),
           const Divider(),
           Padding(

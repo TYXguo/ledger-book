@@ -19,4 +19,10 @@ export const familyController = {
     const result = await familyService.listFamilies((request as any).userId);
     return reply.send(result);
   },
+
+  async leaveFamily(request: FastifyRequest, reply: FastifyReply) {
+    const { familyId } = request.params as { familyId: string };
+    await familyService.leave((request as any).userId, familyId);
+    return reply.send({ ok: true });
+  },
 };

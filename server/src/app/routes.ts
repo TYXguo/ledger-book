@@ -18,7 +18,7 @@ export const registerRoutes = async (app: FastifyInstance) => {
   app.post('/auth/login', authController.login);
 
   // Protected — scoped with authGuard so public routes are not affected
-  app.register(protectedRoutes);
+  await app.register(protectedRoutes);
 };
 
 const protectedRoutes = async (app: FastifyInstance) => {
@@ -28,6 +28,7 @@ const protectedRoutes = async (app: FastifyInstance) => {
   app.post('/families', familyController.createFamily);
   app.post('/families/join', familyController.joinFamily);
   app.get('/families', familyController.listFamilies);
+  app.post('/families/:familyId/leave', familyController.leaveFamily);
 
   // Members
   app.get('/families/:familyId/members', memberController.listMembers);

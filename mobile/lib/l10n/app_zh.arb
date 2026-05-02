@@ -470,5 +470,22 @@
   "noFamilyHint": "创建或加入一个家庭开始记账",
   "@noFamilyHint": {
     "description": "无家庭时的引导提示"
+  },
+
+  "leaveFamily": "退出家庭",
+  "@leaveFamily": {
+    "description": "退出家庭按钮"
+  },
+  "leaveFamilyConfirmTitle": "确认退出家庭？",
+  "@leaveFamilyConfirmTitle": {
+    "description": "退出家庭确认对话框标题"
+  },
+  "leaveFamilyConfirmBody": "退出后将无法查看该家庭的账单与成员；若需再次使用，请通过邀请码重新加入。",
+  "@leaveFamilyConfirmBody": {
+    "description": "退出家庭确认说明"
+  },
+  "leaveFamilyConfirmAction": "退出",
+  "@leaveFamilyConfirmAction": {
+    "description": "退出家庭确认按钮"
   }
 }

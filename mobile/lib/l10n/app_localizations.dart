@@ -733,6 +733,30 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'创建或加入一个家庭开始记账'**
   String get noFamilyHint;
+
+  /// 退出家庭按钮
+  ///
+  /// In zh, this message translates to:
+  /// **'退出家庭'**
+  String get leaveFamily;
+
+  /// 退出家庭确认对话框标题
+  ///
+  /// In zh, this message translates to:
+  /// **'确认退出家庭？'**
+  String get leaveFamilyConfirmTitle;
+
+  /// 退出家庭确认说明
+  ///
+  /// In zh, this message translates to:
+  /// **'退出后将无法查看该家庭的账单与成员；若需再次使用，请通过邀请码重新加入。'**
+  String get leaveFamilyConfirmBody;
+
+  /// 退出家庭确认按钮
+  ///
+  /// In zh, this message translates to:
+  /// **'退出'**
+  String get leaveFamilyConfirmAction;
 }
 
 class _AppLocalizationsDelegate

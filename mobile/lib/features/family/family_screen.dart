@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../data/api/api_client.dart';
 import '../../data/providers/family_provider.dart';
 import '../../data/providers/api_client_provider.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/leave_family_dialog.dart';
 
 class FamilyScreen extends ConsumerWidget {
   const FamilyScreen({super.key});
@@ -54,7 +54,6 @@ class FamilyScreen extends ConsumerWidget {
                   ),
                 );
               }
-              final currentId = ref.watch(currentFamilyIdProvider);
               return Column(
                 children: [
                   Card(
@@ -109,6 +108,16 @@ class FamilyScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => showLeaveFamilyConfirmAndExecute(context, ref, list.first.familyId),
+                      icon: const Icon(Icons.logout, color: Colors.red),
+                      label: Text(l10n.leaveFamily, style: const TextStyle(color: Colors.red)),
+                      style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.red)),
                     ),
                   ),
                 ],

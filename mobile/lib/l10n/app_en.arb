@@ -115,5 +115,10 @@
   "manageCategories": "Manage",
 
   "singleFamilyHint": "Each account can only belong to one family",
-  "noFamilyHint": "Create or join a family to start tracking"
+  "noFamilyHint": "Create or join a family to start tracking",
+
+  "leaveFamily": "Leave family",
+  "leaveFamilyConfirmTitle": "Leave this family?",
+  "leaveFamilyConfirmBody": "You will lose access to this family's ledger and members. Rejoin with an invite code to use it again.",
+  "leaveFamilyConfirmAction": "Leave"
 }
