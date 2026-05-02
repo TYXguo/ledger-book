@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../data/models/transaction_model.dart';
 import '../../data/providers/transaction_provider.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/layout_after_navigation_bump.dart';
 
 class TransactionListScreen extends ConsumerStatefulWidget {
   const TransactionListScreen({super.key});
@@ -14,13 +16,40 @@ class TransactionListScreen extends ConsumerStatefulWidget {
 
 class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
   final _searchController = TextEditingController();
+  final _listScrollController = ScrollController();
   String? _typeFilter;
   final _amountFormat = NumberFormat.decimalPatternDigits(locale: 'zh_CN', decimalDigits: 2);
+
+  @override
+  void dispose() {
+    _listScrollController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _clampListScroll() {
+    if (!_listScrollController.hasClients) return;
+    final p = _listScrollController.position;
+    if (!p.haveDimensions) return;
+    final max = p.maxScrollExtent;
+    if (p.pixels > max) {
+      p.jumpTo(max);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final txnList = ref.watch(transactionListProvider);
     final l10n = AppLocalizations.of(context)!;
+
+    ref.listen<AsyncValue<TransactionListResult>>(transactionListProvider, (previous, next) {
+      next.whenData((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          _clampListScroll();
+        });
+      });
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -92,41 +121,46 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
             ),
           ),
           Expanded(
-            child: txnList.when(
-              data: (result) {
-                if (result.items.isEmpty) {
-                  return Center(child: Text(l10n.noTransactionsFound, style: const TextStyle(color: Colors.grey)));
-                }
-                return RefreshIndicator(
-                  onRefresh: () async => ref.read(transactionListProvider.notifier).load(),
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: result.items.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final txn = result.items[index];
-                      final isExpense = txn.type == 'expense';
-                      return ListTile(
-                        leading: CircleAvatar(
-                          child: Icon(isExpense ? Icons.arrow_downward : Icons.arrow_upward),
-                        ),
-                        title: Text(txn.categoryName ?? 'Unknown'),
-                        subtitle: Text([
-                          if (txn.note != null && txn.note!.isNotEmpty) txn.note!,
-                          DateFormat('yyyy-MM-dd HH:mm').format(txn.occurredAt),
-                          if (txn.tags.isNotEmpty) txn.tags.map((t) => '#${t.name}').join(' '),
-                        ].join(' · ')),
-                        trailing: Text(
-                          '${isExpense ? '-' : '+'}${_amountFormat.format(txn.amount)}',
-                          style: TextStyle(fontWeight: FontWeight.w600, color: isExpense ? Colors.red : Colors.green),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(child: Text('Error: $e')),
+            child: LayoutAfterNavigationBump(
+              child: txnList.when(
+                data: (result) {
+                  if (result.items.isEmpty) {
+                    return Center(child: Text(l10n.noTransactionsFound, style: const TextStyle(color: Colors.grey)));
+                  }
+                  return RefreshIndicator(
+                    onRefresh: () async => ref.read(transactionListProvider.notifier).load(),
+                    child: ListView.separated(
+                      controller: _listScrollController,
+                      primary: false,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(16),
+                      itemCount: result.items.length,
+                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final txn = result.items[index];
+                        final isExpense = txn.type == 'expense';
+                        return ListTile(
+                          leading: CircleAvatar(
+                            child: Icon(isExpense ? Icons.arrow_downward : Icons.arrow_upward),
+                          ),
+                          title: Text(txn.categoryName ?? 'Unknown'),
+                          subtitle: Text([
+                            if (txn.note != null && txn.note!.isNotEmpty) txn.note!,
+                            DateFormat('yyyy-MM-dd HH:mm').format(txn.occurredAt),
+                            if (txn.tags.isNotEmpty) txn.tags.map((t) => '#${t.name}').join(' '),
+                          ].join(' · ')),
+                          trailing: Text(
+                            '${isExpense ? '-' : '+'}${_amountFormat.format(txn.amount)}',
+                            style: TextStyle(fontWeight: FontWeight.w600, color: isExpense ? Colors.red : Colors.green),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(child: Text('Error: $e')),
+              ),
             ),
           ),
           txnList.when(

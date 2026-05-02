@@ -7,6 +7,7 @@ import '../../data/providers/transaction_provider.dart';
 import '../../data/providers/family_provider.dart';
 import '../../data/models/overview_model.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/layout_after_navigation_bump.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -54,14 +55,15 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.appTitle),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(overviewProvider);
-          ref.read(transactionListProvider.notifier).load();
-        },
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
+      body: LayoutAfterNavigationBump(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(overviewProvider);
+            ref.read(transactionListProvider.notifier).load();
+          },
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
             overview.when(
               data: (data) => _OverviewCard(data: data, amountFormat: amountFormat),
               loading: () => const Card(
@@ -133,7 +135,8 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

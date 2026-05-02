@@ -35,6 +35,7 @@ const protectedRoutes = async (app: FastifyInstance) => {
   // Categories
   app.get('/families/:familyId/categories', categoryController.listCategories);
   app.post('/families/:familyId/categories', categoryController.createCategory);
+  app.delete('/families/:familyId/categories/:categoryId', categoryController.deleteCategory);
 
   // Tags
   app.get('/families/:familyId/tags', tagController.listTags);

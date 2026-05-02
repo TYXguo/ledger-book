@@ -14,8 +14,13 @@ class ApiClient {
   }
 
   Map<String, String> get _headers => {
-    'Content-Type': 'application/json',
     if (_token != null) 'Authorization': 'Bearer $_token',
+  };
+
+  /// Only for requests that send a JSON body; Fastify rejects empty body + application/json (e.g. DELETE).
+  Map<String, String> get _jsonHeaders => {
+    ..._headers,
+    'Content-Type': 'application/json',
   };
 
   Uri _uri(String path, [Map<String, String>? query]) {
@@ -31,14 +36,14 @@ class ApiClient {
 
   Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body}) async {
     final response = await _httpClient
-        .post(_uri(path), headers: _headers, body: jsonEncode(body ?? {}))
+        .post(_uri(path), headers: _jsonHeaders, body: jsonEncode(body ?? {}))
         .timeout(ApiConfig.timeout);
     return _handleResponse(response);
   }
 
   Future<Map<String, dynamic>> put(String path, {Map<String, dynamic>? body}) async {
     final response = await _httpClient
-        .put(_uri(path), headers: _headers, body: jsonEncode(body ?? {}))
+        .put(_uri(path), headers: _jsonHeaders, body: jsonEncode(body ?? {}))
         .timeout(ApiConfig.timeout);
     return _handleResponse(response);
   }

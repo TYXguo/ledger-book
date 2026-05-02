@@ -15,4 +15,10 @@ export const categoryController = {
     const result = await categoryService.create((request as any).userId, familyId, dto);
     return reply.status(201).send(result);
   },
+
+  async deleteCategory(request: FastifyRequest, reply: FastifyReply) {
+    const { familyId, categoryId } = request.params as { familyId: string; categoryId: string };
+    await categoryService.delete((request as any).userId, familyId, categoryId);
+    return reply.send({ ok: true });
+  },
 };

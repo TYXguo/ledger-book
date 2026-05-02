@@ -11,6 +11,8 @@ export const createApp = async () => {
   await app.register(cors, {
     origin: true,
     credentials: true,
+    // Default is GET,HEAD,POST only; without DELETE (and PUT/PATCH) preflight fails on web clients.
+    methods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
   });
 
   app.setErrorHandler(errorHandler);

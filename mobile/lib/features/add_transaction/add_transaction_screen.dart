@@ -227,7 +227,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         'categoryId': _selectedCategoryId!,
         'subCategoryId': _selectedSubCategoryId,
         'occurredAt': _selectedDate.toUtc().toIso8601String(),
-        'note': _noteController.text.isEmpty ? null : _noteController.text,
+        if (_noteController.text.isNotEmpty) 'note': _noteController.text,
       });
 
       ref.invalidate(overviewProvider);
