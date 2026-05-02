@@ -16,7 +16,7 @@ class TransferScreen extends ConsumerStatefulWidget {
 }
 
 class _TransferScreenState extends ConsumerState<TransferScreen> {
-  final _currency = NumberFormat.currency(locale: 'zh_CN', symbol: '¥');
+  final _amountFormat = NumberFormat.decimalPatternDigits(locale: 'zh_CN', decimalDigits: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
                     t.referenceNo,
                   ].join(' · ')),
                   trailing: Text(
-                    _currency.format(t.amount),
+                    _amountFormat.format(t.amount),
                     style: TextStyle(fontWeight: FontWeight.w600, color: color),
                   ),
                 );
@@ -128,7 +128,7 @@ class _TransferScreenState extends ConsumerState<TransferScreen> {
                 TextField(
                   controller: amountCtrl,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(labelText: l10n.amount, prefixText: '¥ '),
+                  decoration: InputDecoration(labelText: l10n.amount),
                 ),
                 const SizedBox(height: 8),
                 TextField(controller: noteCtrl, decoration: InputDecoration(labelText: l10n.note)),

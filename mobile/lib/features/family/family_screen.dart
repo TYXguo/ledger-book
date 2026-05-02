@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/api/api_client.dart';
@@ -65,6 +66,33 @@ class FamilyScreen extends ConsumerWidget {
                       trailing: const Icon(Icons.check_circle),
                     ),
                   ),
+                  if ((list.first.inviteCode ?? '').isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Card(
+                      child: ListTile(
+                        leading: const Icon(Icons.qr_code_2),
+                        title: Text(l10n.inviteCode),
+                        subtitle: Text(
+                          list.first.inviteCode!,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () async {
+                            await Clipboard.setData(ClipboardData(text: list.first.inviteCode!));
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('邀请码已复制')),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 8),
                   Card(
                     child: Padding(

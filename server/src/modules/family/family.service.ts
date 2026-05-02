@@ -59,6 +59,7 @@ export const familyService = {
     return members.map((m) => ({
       familyId: m.familyId,
       name: m.family.name,
+      inviteCode: m.family.inviteCode,
       role: m.role,
       isDefault: m.isDefault,
     }));

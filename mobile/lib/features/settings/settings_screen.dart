@@ -85,7 +85,6 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showLanguageDialog(context, ref, l10n),
           ),
-          ListTile(leading: const Icon(Icons.attach_money), title: Text(l10n.currency), subtitle: Text(l10n.currencyCNY)),
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.about),

@@ -17,7 +17,7 @@ class BudgetScreen extends ConsumerStatefulWidget {
 
 class _BudgetScreenState extends ConsumerState<BudgetScreen> {
   late String _month;
-  final _currency = NumberFormat.currency(locale: 'zh_CN', symbol: '¥');
+  final _amountFormat = NumberFormat.decimalPatternDigits(locale: 'zh_CN', decimalDigits: 2);
 
   @override
   void initState() {
@@ -122,13 +122,13 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(l10n.budgetSpent(_currency.format(data.totalExpense)), style: TextStyle(color: Theme.of(context).colorScheme.outline)),
-                          Text(l10n.budgetAmount(_currency.format(data.totalBudget)), style: TextStyle(color: Theme.of(context).colorScheme.outline)),
+                          Text(l10n.budgetSpent(_amountFormat.format(data.totalExpense)), style: TextStyle(color: Theme.of(context).colorScheme.outline)),
+                          Text(l10n.budgetAmount(_amountFormat.format(data.totalBudget)), style: TextStyle(color: Theme.of(context).colorScheme.outline)),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        l10n.budgetRemaining(_currency.format(data.remaining)),
+                        l10n.budgetRemaining(_amountFormat.format(data.remaining)),
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isOver ? Colors.red : Colors.green),
                       ),
                       const SizedBox(height: 4),
@@ -156,7 +156,7 @@ class _BudgetScreenState extends ConsumerState<BudgetScreen> {
         content: TextField(
           controller: amountCtrl,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: InputDecoration(labelText: l10n.budgetAmountLabel, prefixText: '¥ '),
+          decoration: InputDecoration(labelText: l10n.budgetAmountLabel),
         ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.cancel)),

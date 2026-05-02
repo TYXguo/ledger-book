@@ -15,7 +15,7 @@ class TransactionListScreen extends ConsumerStatefulWidget {
 class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
   final _searchController = TextEditingController();
   String? _typeFilter;
-  final _currency = NumberFormat.currency(locale: 'zh_CN', symbol: '¥');
+  final _amountFormat = NumberFormat.decimalPatternDigits(locale: 'zh_CN', decimalDigits: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
                         icon: const Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear();
-                          ref.read(transactionListProvider.notifier).setFilter(keyword: null);
+                          ref.read(transactionListProvider.notifier).setKeyword(null);
                         },
                       )
                     : null,
@@ -50,7 +50,7 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               ),
               onSubmitted: (v) {
-                ref.read(transactionListProvider.notifier).setFilter(keyword: v.isEmpty ? null : v);
+                ref.read(transactionListProvider.notifier).setKeyword(v.isEmpty ? null : v);
               },
             ),
           ),
@@ -67,7 +67,7 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
                   selected: _typeFilter == null,
                   onSelected: (_) {
                     setState(() => _typeFilter = null);
-                    ref.read(transactionListProvider.notifier).setFilter(type: null);
+                    ref.read(transactionListProvider.notifier).setTypeFilter(null);
                   },
                 ),
                 const SizedBox(width: 8),
@@ -76,7 +76,7 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
                   selected: _typeFilter == 'expense',
                   onSelected: (_) {
                     setState(() => _typeFilter = 'expense');
-                    ref.read(transactionListProvider.notifier).setFilter(type: 'expense');
+                    ref.read(transactionListProvider.notifier).setTypeFilter('expense');
                   },
                 ),
                 const SizedBox(width: 8),
@@ -85,7 +85,7 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
                   selected: _typeFilter == 'income',
                   onSelected: (_) {
                     setState(() => _typeFilter = 'income');
-                    ref.read(transactionListProvider.notifier).setFilter(type: 'income');
+                    ref.read(transactionListProvider.notifier).setTypeFilter('income');
                   },
                 ),
               ],
@@ -117,7 +117,7 @@ class _TransactionListScreenState extends ConsumerState<TransactionListScreen> {
                           if (txn.tags.isNotEmpty) txn.tags.map((t) => '#${t.name}').join(' '),
                         ].join(' · ')),
                         trailing: Text(
-                          '${isExpense ? '-' : '+'}${_currency.format(txn.amount)}',
+                          '${isExpense ? '-' : '+'}${_amountFormat.format(txn.amount)}',
                           style: TextStyle(fontWeight: FontWeight.w600, color: isExpense ? Colors.red : Colors.green),
                         ),
                       );

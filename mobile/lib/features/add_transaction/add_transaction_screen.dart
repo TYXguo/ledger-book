@@ -62,8 +62,6 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 hintText: '0.00',
-                prefixText: '¥ ',
-                prefixStyle: TextStyle(fontSize: 36, color: Theme.of(context).colorScheme.outline),
                 border: InputBorder.none,
               ),
             ),

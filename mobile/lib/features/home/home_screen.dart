@@ -16,7 +16,7 @@ class HomeScreen extends ConsumerWidget {
     final overview = ref.watch(overviewProvider);
     final txnList = ref.watch(transactionListProvider);
     final currentFamilyId = ref.watch(currentFamilyIdProvider);
-    final currency = NumberFormat.currency(locale: 'zh_CN', symbol: '¥');
+    final amountFormat = NumberFormat.decimalPatternDigits(locale: 'zh_CN', decimalDigits: 2);
     final l10n = AppLocalizations.of(context)!;
 
     if (currentFamilyId == null) {
@@ -36,6 +36,12 @@ class HomeScreen extends ConsumerWidget {
                   onPressed: () => context.go('/family'),
                   icon: const Icon(Icons.add_home),
                   label: Text(l10n.createFamily),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: () => context.go('/family'),
+                  icon: const Icon(Icons.group_add),
+                  label: Text(l10n.joinFamily),
                 ),
               ],
             ),
@@ -57,7 +63,7 @@ class HomeScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           children: [
             overview.when(
-              data: (data) => _OverviewCard(data: data, currency: currency),
+              data: (data) => _OverviewCard(data: data, amountFormat: amountFormat),
               loading: () => const Card(
                 child: Padding(
                   padding: EdgeInsets.all(40),
@@ -105,7 +111,7 @@ class HomeScreen extends ConsumerWidget {
                             title: Text(txn.categoryName ?? 'Unknown'),
                             subtitle: Text(txn.note ?? DateFormat('MM/dd HH:mm').format(txn.occurredAt)),
                             trailing: Text(
-                              '${isExpense ? '-' : '+'}${currency.format(txn.amount)}',
+                              '${isExpense ? '-' : '+'}${amountFormat.format(txn.amount)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: isExpense ? Colors.red : Colors.green,
@@ -157,8 +163,8 @@ class HomeScreen extends ConsumerWidget {
 
 class _OverviewCard extends StatelessWidget {
   final OverviewModel data;
-  final NumberFormat currency;
-  const _OverviewCard({required this.data, required this.currency});
+  final NumberFormat amountFormat;
+  const _OverviewCard({required this.data, required this.amountFormat});
 
   @override
   Widget build(BuildContext context) {
@@ -179,9 +185,9 @@ class _OverviewCard extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                _Metric(title: l10n.today, income: data.today.income, expense: data.today.expense, currency: currency),
-                _Metric(title: l10n.thisWeek, income: data.week.income, expense: data.week.expense, currency: currency),
-                _Metric(title: l10n.thisMonth, income: data.month.income, expense: data.month.expense, currency: currency),
+                _Metric(title: l10n.today, income: data.today.income, expense: data.today.expense, amountFormat: amountFormat),
+                _Metric(title: l10n.thisWeek, income: data.week.income, expense: data.week.expense, amountFormat: amountFormat),
+                _Metric(title: l10n.thisMonth, income: data.month.income, expense: data.month.expense, amountFormat: amountFormat),
               ],
             ),
           ],
@@ -195,9 +201,9 @@ class _Metric extends StatelessWidget {
   final String title;
   final double income;
   final double expense;
-  final NumberFormat currency;
+  final NumberFormat amountFormat;
 
-  const _Metric({required this.title, required this.income, required this.expense, required this.currency});
+  const _Metric({required this.title, required this.income, required this.expense, required this.amountFormat});
 
   @override
   Widget build(BuildContext context) {
@@ -208,11 +214,11 @@ class _Metric extends StatelessWidget {
           Text(title, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.outline)),
           const SizedBox(height: 4),
           Text(
-            '-${currency.format(expense)}',
+            '-${amountFormat.format(expense)}',
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),
           ),
           Text(
-            '+${currency.format(income)}',
+            '+${amountFormat.format(income)}',
             style: const TextStyle(fontSize: 12, color: Colors.green),
           ),
         ],

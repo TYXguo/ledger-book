@@ -21,6 +21,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
     final breakdown = ref.watch(categoryBreakdownProvider(_selectedMonth));
     final trend = ref.watch(monthlyTrendProvider);
     final l10n = AppLocalizations.of(context)!;
+    final amountFormat = NumberFormat.decimalPatternDigits(locale: 'zh_CN', decimalDigits: 2);
 
     return Scaffold(
       appBar: AppBar(
@@ -111,7 +112,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                               CircleAvatar(radius: 6, backgroundColor: colors[i % colors.length]),
                               const SizedBox(width: 8),
                               Expanded(child: Text(item.categoryName)),
-                              Text(NumberFormat.currency(locale: 'zh_CN', symbol: '¥').format(item.totalAmount)),
+                              Text(amountFormat.format(item.totalAmount)),
                             ],
                           ),
                         );
