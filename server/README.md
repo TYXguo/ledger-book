@@ -84,6 +84,44 @@ curl http://localhost:3000/health
 | POST/GET | /families/:id/transfers | 是 | 创建/获取转账记录 |
 | GET | /families/:id/members/:mid/balance | 是 | 获取成员余额 |
 
+## 查看数据库数据
+
+### 1. Prisma Studio（推荐，可视化界面）
+
+```bash
+npx prisma studio
+```
+
+会在浏览器打开一个可视化界面，可以浏览所有表的数据。
+
+### 2. 直接连 PostgreSQL
+
+```bash
+# 用 psql 命令行
+psql -h localhost -U postgres -d ledger_book
+
+# 或者用 Docker 内的 psql
+docker compose exec postgres psql -U postgres -d ledger_book
+```
+
+连接后可以查看表和数据：
+
+```sql
+\dt                          -- 列出所有表
+SELECT * FROM app_user;      -- 查看用户表
+SELECT * FROM family;        -- 查看家庭表
+SELECT * FROM transaction;   -- 查看交易记录
+```
+
+### 3. GUI 客户端工具
+
+可以安装图形化工具来更方便地查看：
+- **TablePlus**（macOS 推荐）
+- **DBeaver**（免费跨平台）
+- **Postico**（macOS）
+
+连接信息参考 `.env` 或 `.env.example` 中的 `DATABASE_URL`。
+
 ## 环境变量
 
 配置项详见 `.env.example`。

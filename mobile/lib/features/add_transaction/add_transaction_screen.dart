@@ -19,12 +19,41 @@ class AddTransactionScreen extends ConsumerStatefulWidget {
 
 class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   String _type = 'expense';
-  final _amountController = TextEditingController();
+  final _amountController = TextEditingController(text: '0.00');
   final _noteController = TextEditingController();
+  final _amountFocusNode = FocusNode();
   String? _selectedCategoryId;
   String? _selectedSubCategoryId;
   DateTime _selectedDate = DateTime.now();
   bool _saving = false;
+  bool _amountFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _amountController.text.length),
+    );
+    _amountFocusNode.addListener(() {
+      if (_amountFocusNode.hasFocus && !_amountFocused) {
+        setState(() {
+          _amountFocused = true;
+          _amountController.clear();
+        });
+      } else if (!_amountFocusNode.hasFocus && _amountController.text.isEmpty) {
+        setState(() {
+          _amountFocused = false;
+          _amountController.text = '0.00';
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _amountFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +86,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             const SizedBox(height: 20),
             TextField(
               controller: _amountController,
+              focusNode: _amountFocusNode,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: _amountFocused ? null : Colors.grey,
+              ),
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: '0.00',
                 border: InputBorder.none,
               ),
             ),
